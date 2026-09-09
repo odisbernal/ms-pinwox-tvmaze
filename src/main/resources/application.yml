@@ -1,0 +1,5 @@
+﻿spring:
+  application:
+    name: tvmaze
+server:
+  port: 8080
