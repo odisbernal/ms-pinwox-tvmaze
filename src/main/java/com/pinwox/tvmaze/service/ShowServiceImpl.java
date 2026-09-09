@@ -5,6 +5,7 @@ import java.util.List;
 import com.pinwox.tvmaze.client.TvMazeClient;
 import com.pinwox.tvmaze.dto.response.ShowResponseDTO;
 import com.pinwox.tvmaze.dto.response.TvMazeSearchResponseDTO;
+import com.pinwox.tvmaze.dto.response.TvMazeShowDTO;
 import com.pinwox.tvmaze.exception.ResourceNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -20,14 +21,19 @@ public class ShowServiceImpl implements ShowService {
 
     @Override
     public List<ShowResponseDTO> searchShows(String searchQuery) {
-        
-         List<TvMazeSearchResponseDTO> tvMazeShows =
-                tvMazeClient.searchShows(searchQuery);
-    
+
+        List<TvMazeSearchResponseDTO> tvMazeShows = tvMazeClient.searchShows(searchQuery);
 
         return tvMazeShows.stream()
                 .map(response -> showMapper.toResponseDTO(response.getShow()))
                 .toList();
+    }
+
+    @Override
+    public TvMazeShowDTO getShowById(Long showId) {
+
+        return tvMazeClient.getShowById(showId);
+
     }
 
 }
