@@ -11,20 +11,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MongoConfig {
 
-        @Bean
+    @Bean
     public MappingMongoConverter mappingMongoConverter(
             MongoDatabaseFactory databaseFactory,
             MongoMappingContext context) {
 
-        MappingMongoConverter converter =
-                new MappingMongoConverter(
-                        new DefaultDbRefResolver(databaseFactory),
-                        context
-                );
+        MappingMongoConverter converter = new MappingMongoConverter(
+                new DefaultDbRefResolver(databaseFactory),
+                context);
 
         converter.setTypeMapper(
-                new DefaultMongoTypeMapper(null)
-        );
+                new DefaultMongoTypeMapper(null));
 
         return converter;
     }
