@@ -18,5 +18,6 @@ public class ShowResponseDTO {
     private String channel;
     private String summary;
     private List<String> genres;
-
+    //Nuevo campo agregado
+    private List<ShowCommentResponseDTO> comments;
 }

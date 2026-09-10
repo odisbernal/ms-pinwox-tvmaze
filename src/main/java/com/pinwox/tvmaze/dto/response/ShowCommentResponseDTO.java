@@ -1,18 +1,17 @@
-package com.pinwox.tvmaze.dto.request;
-
-
+package com.pinwox.tvmaze.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequestDTO {
+public class ShowCommentResponseDTO {
     
-    private Long showId;
     private String comment;
     private Integer rating;
-
+    
 }
