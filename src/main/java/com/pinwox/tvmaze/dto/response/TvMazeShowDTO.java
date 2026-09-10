@@ -38,4 +38,6 @@ public class TvMazeShowDTO {
     @JsonProperty("_links")
     private TvMazeLinksDTO links;
 
+    private List<ShowCommentResponseDTO> comments;
+
 }

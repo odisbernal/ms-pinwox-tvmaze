@@ -9,6 +9,7 @@ import com.pinwox.tvmaze.dto.response.TvMazeSearchResponseDTO;
 import com.pinwox.tvmaze.dto.response.TvMazeShowDTO;
 import com.pinwox.tvmaze.entity.Show;
 import com.pinwox.tvmaze.entity.Comment;
+import com.pinwox.tvmaze.mapper.CommentMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.pinwox.tvmaze.mapper.ShowMapper;
 import com.pinwox.tvmaze.repository.CommentRepository;
@@ -27,12 +27,11 @@ import com.pinwox.tvmaze.repository.ShowRepository;
 @RequiredArgsConstructor
 public class ShowServiceImpl implements ShowService {
 
-    @Autowired
-    private ShowRepository showRepository;
-
+    private final ShowRepository showRepository;
     private final TvMazeClient tvMazeClient;
     private final ShowMapper showMapper;
     private final CommentRepository commentRepository;
+    private final CommentMapper commentMapper;;
 
     @Override
     public List<ShowResponseDTO> searchShows(String searchQuery) {
@@ -65,25 +64,30 @@ public class ShowServiceImpl implements ShowService {
     @Override
     public TvMazeShowDTO getShowById(Long showId) {
 
-        log.info("Consultando show con id {} en MongoDB", showId);
-
         Optional<Show> showPersistence = showRepository.findById(showId);
+
+        TvMazeShowDTO show;
 
         if (showPersistence.isPresent()) {
 
-            log.info("Show con id {} encontrado en cache MongoDB", showId);
-
-            return showMapper.toTvMazeShowDTO(showPersistence.get());
+            show = showMapper.toTvMazeShowDTO(
+                    showPersistence.get());
+        } else {
+            show = tvMazeClient.getShowById(showId);
+            showRepository.save(
+                    showMapper.toEntity(show));
+            log.info(
+                    "Show con id {} guardado en MongoDB",
+                    showId);
         }
 
-        log.info(
-                "Show con id {} no encontrado en MongoDB. Consultando API TVMaze",
-                showId);
+        List<Comment> comments = commentRepository.findByShowId(showId);
 
-        TvMazeShowDTO show = tvMazeClient.getShowById(showId);
-
-        showRepository.save(
-                showMapper.toEntity(show));
+        show.setComments(
+                comments.stream()
+                        .map(commentMapper::toShowCommentResponseDTO)
+                        .toList());
+        //Se agrega libreria para spring automatico de cambios
 
         return show;
     }

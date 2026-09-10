@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 
 import com.pinwox.tvmaze.dto.request.CommentRequestDTO;
 import com.pinwox.tvmaze.dto.response.CommentResponseDTO;
+import com.pinwox.tvmaze.dto.response.ShowCommentResponseDTO;
 import com.pinwox.tvmaze.entity.Comment;
-
 
 @Component
 public class CommentMapper {
@@ -35,6 +35,18 @@ public class CommentMapper {
                 .comment(entity.getComment())
                 .rating(entity.getRating())
                 .creationDate(entity.getCreationDate())
+                .build();
+    }
+
+    public ShowCommentResponseDTO toShowCommentResponseDTO(Comment entity) {
+
+        if (entity == null) {
+            return null;
+        }
+
+        return ShowCommentResponseDTO.builder()
+                .comment(entity.getComment())
+                .rating(entity.getRating())
                 .build();
     }
 }
