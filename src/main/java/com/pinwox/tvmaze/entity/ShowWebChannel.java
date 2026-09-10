@@ -1,4 +1,4 @@
-package com.pinwox.tvmaze.dto.response;
+package com.pinwox.tvmaze.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TvMazeWebChannelDTO {
+public class ShowWebChannel {
 
     private Long id;
     private String name;
-    private TvMazeCountryDTO country;
+    private ShowCountry country;
     private String officialSite;
-
 }

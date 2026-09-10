@@ -1,5 +1,8 @@
 package com.pinwox.tvmaze.repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public class ShowRepository {
+import com.pinwox.tvmaze.entity.Show;
+
+public interface ShowRepository extends MongoRepository<Show, Long> {
 
 }
